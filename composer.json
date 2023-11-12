@@ -1,0 +1,26 @@
+{
+    "name": "jesus/php",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Jeroba",
+            "email": "jeroba@gmail.com"
+        }
+    ],
+    "require": {
+        "php-units-of-measure/php-units-of-measure": "^2.1",
+        "artack/color": "^0.6.0",
+        "pecee/simple-router": "5.3.0.5",
+        "illuminate/database": "^10.30",
+        "simplehtmldom/simplehtmldom": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\":"App/",
+            "Core\\":"Core/"
+        },
+        "files": [
+            "functions.php"
+        ]
+    }
+}

@@ -1,0 +1,53 @@
+{
+    "name": "artack/color",
+    "type": "library",
+    "description": "Color helper library for converting between RGB, CMYK, HSV, HST and HEX and create interpolation.",
+    "keywords": ["color", "conversion", "interpolation"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "ARTACK WebLab GmbH",
+            "homepage": "https://www.artack.ch"
+        }
+    ],
+    "require": {
+        "php": "^7.4|^8.0",
+        "webmozart/assert": "^1.2",
+        "clue/graph": "^0.9.0",
+        "graphp/algorithms": "^0.8.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Artack\\Color\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Artack\\Color\\": "tests/"
+        }
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^v3.9",
+        "phpstan/phpstan": "^1.8",
+        "phpstan/phpstan-phpunit": "^1.1",
+        "phpstan/phpstan-webmozart-assert": "^1.2",
+        "phpunit/phpunit": "^9.5"
+    },
+    "scripts": {
+        "phpcs": "php-cs-fixer fix -vvv --diff --dry-run --allow-risky=yes --ansi",
+        "phpcs:fix": "php-cs-fixer fix -vvv --allow-risky=yes --ansi",
+        "phpstan": "phpstan analyse -c phpstan.neon --ansi",
+        "phpunit": "XDEBUG_MODE=coverage phpunit --coverage-text",
+        "test": [
+            "@phpunit",
+            "@phpstan",
+            "@phpcs"
+        ]
+    },
+    "scripts-descriptions": {
+        "phpcs": "Runs coding style test suite",
+        "phpstan": "Runs complete codebase static analysis",
+        "phpunit": "Runs unit and functional testing",
+        "test": "Runs full test suite"
+    }
+}
