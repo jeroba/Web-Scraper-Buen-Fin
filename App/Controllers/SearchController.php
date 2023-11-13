@@ -3,7 +3,7 @@
 namespace App\Controllers; 
 
 use App\Models\Search;
-use App\Scrapers\EbayScraper;
+use App\Scrapers\MercadoLibreScraper;
 use App\Scrapers\AmazonScraper;
 
 class SearchController {
@@ -21,22 +21,22 @@ class SearchController {
         $amazon = new AmazonScraper(input('keywords'));
         $amazon->search();
 
-        $ebay = new EbayScraper(input('keywords'));
-        $ebay->search();
+        $mercadoLibre = new MercadoLibreScraper(input('keywords'));
+        $mercadoLibre->search();
 
         if (input('sort') == 'asc') {
             $amazon->sortAsc();
-            $ebay->sortAsc();
+            $mercadoLibre->sortAsc();
         }
 
         if (input('sort') == 'desc') {
             $amazon->sortDesc();
-            $ebay->sortDesc();
+            $mercadoLibre->sortDesc();
         }
 
         return view('search', [
             'amazonResults' => $amazon->getResults(),
-            'ebayResults' => $ebay->getResults(),
+            'mercadoLibreResults' => $mercadoLibre->getResults(),
         ]);
     }
 

@@ -5,15 +5,16 @@ namespace App\Scrapers;
 use simplehtmldom\HtmlWeb;
 use simplehtmldom\HtmlDocument;
 
-class AmazonScraper {
+class MercadoLibreScraper {
     protected $keywords;
 
     protected $clientWeb;
 
     protected $clientHtml;
 
-    protected $url = 'https://www.amazon.com.mx/s?k=';
-    protected $querySelector = 'div[data-component-type=s-search-result]';
+    protected $url = 'https://listado.mercadolibre.com.mx/';
+
+    protected $querySelector = 'li.ui-search-layout__item';
 
     protected $results = [];
 
@@ -36,23 +37,18 @@ class AmazonScraper {
     protected function getProductResults($allNodes) {
         foreach ($allNodes as $node) {
             $productNode = $this->clientHtml->load($node->innertext);
-            $image = $productNode->find('img', 0);
-            $title = $productNode->find('h2', 0);
-            $url = $productNode->find('h2 a', 0);
-            $price = $productNode->find('.a-offscreen', 0);
-
+            $image = $productNode->find('.ui-search-result-image__element', 0);
+            $title = $productNode->find('h2.ui-search-item__title', 0);
+            $url = $productNode->find('a.ui-search-link', 0);
+            $price = $productNode->find('span.andes-money-amount__fraction', 0);
+            
             $this->results[] = [
-                'image' => $image->src,
+                'image' => $image->getAttribute('data-src'),
                 'title' => $title->plaintext,
                 'url' => $url->href,
-                'price' => $price ? $this->getPrice($price->plaintext) : null,
+                'price' => $price ? $this->getSinglePrice($price->plaintext) : null,
             ];
         }
-    }
-
-    protected function getPrice($price) {
-        $price = trim($price, '$');
-        return str_replace(',', '', $price);
     }
 
     public function getResults() {
@@ -81,5 +77,17 @@ class AmazonScraper {
         });
         
         return $this;
+    }
+
+    protected function getSinglePrice($price) {
+        $price = trim($price, 'USD');
+        $price = trim($price, 'MXN');
+        $price = explode(' a USD', $price)[0];
+        $price = explode(' a MXN', $price)[0];
+        $price = trim($price, ' ');
+        $price = trim($price, '$');
+        $price = str_replace(',', '', $price);
+
+        return str_replace(' ', '', $price);
     }
 }

@@ -24,9 +24,9 @@
     </div>
 
     <div class="list">
-        <h2>Ebay</h2>
+        <h2>Mercado Libre</h2>
 
-        <?php foreach($ebayResults as $result): ?>
+        <?php foreach($mercadoLibreResults as $result): ?>
             <div class="list-item">
                 <div><img src="<?= $result['image'] ?>"></div>
                 <div>
